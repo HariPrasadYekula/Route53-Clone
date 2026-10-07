@@ -1,0 +1,12 @@
+# Render blueprint for the API. Frontend: deploy /frontend on Vercel with API_URL=<this service URL>.
+services:
+  - type: web
+    name: route53-clone-api
+    runtime: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - { key: COOKIE_SECURE, value: "1" }
+    # Free instances have an ephemeral disk: the app re-seeds demo data on every start.
+    # For persistence add:  disk: { name: data, mountPath: /data, sizeGB: 1 }  (paid plan)
